@@ -376,15 +376,21 @@ describe('ngrxLocalStorage', () => {
     });
 
     it('merges partial states', () => {
-        const keyDef = ['foo', { bar: ['baz'] }];
+        const keyDef = [
+          'foo',
+          { bar: ['baz'] },
+          { baz: {customOptions: () => {} } },
+        ];
+
         expect(
           mergePartialStates(
             keyDef,
-            { bar: {baz: 123, nitch: 456} },
-            { foo: 'hello', bar: {baz: 1} },
+            { baz: 123, bar: {baz: 123, nitch: 456} },
+            { foo: 'hello', baz: 456, bar: {baz: 1} },
           )
         ).toEqual({
           foo: 'hello',
+          baz: 456,
           bar: {
             baz: 1,
             nitch: 456
