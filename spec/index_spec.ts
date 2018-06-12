@@ -378,6 +378,7 @@ describe('ngrxLocalStorage', () => {
     it('merges partial states', () => {
         const keyDef = [
           'foo',
+          'notRehydrated',
           { bar: ['baz'] },
           { baz: {customOptions: () => {} } },
         ];
@@ -385,10 +386,11 @@ describe('ngrxLocalStorage', () => {
         expect(
           mergePartialStates(
             keyDef,
-            { baz: 123, bar: {baz: 123, nitch: 456} },
+            { notRehydrated: 123, baz: 123, bar: {baz: 123, nitch: 456} },
             { foo: 'hello', baz: 456, bar: {baz: 1} },
           )
         ).toEqual({
+          notRehydrated: 123,
           foo: 'hello',
           baz: 456,
           bar: {

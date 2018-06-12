@@ -251,10 +251,12 @@ export const mergePartialStates = (stateKeys: (string | { [idx: string]: null | 
 
   stateKeys.map((key) => {
     if ( typeof key === 'string' ) {
-      finalState = {
-        ...finalState,
-        [key]: rehydratedState[key],
-      };
+      if (key in rehydratedState) {
+        finalState = {
+          ...finalState,
+          [key]: rehydratedState[key],
+        };
+      }
     } else {
       const name = Object.keys(key)[0];
       const newValues = {};
