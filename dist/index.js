@@ -196,18 +196,29 @@ exports.localStorageSync = function (config) { return function (reducer) {
 exports.mergePartialStates = function (stateKeys, currentState, rehydratedState) {
     var finalState = __assign({}, currentState);
     stateKeys.map(function (key) {
-        var _a, _b;
+        var _a, _b, _c;
         if (typeof key === 'string') {
-            finalState = __assign({}, finalState, (_a = {}, _a[key] = rehydratedState[key], _a));
+            if (key in rehydratedState) {
+                finalState = __assign({}, finalState, (_a = {}, _a[key] = rehydratedState[key], _a));
+            }
         }
         else {
             var name_2 = Object.keys(key)[0];
             var newValues_1 = {};
             var keys = key[name_2];
-            if (keys) {
-                keys.map(function (key) { return newValues_1[key] = rehydratedState[name_2][key]; });
+            if (name_2 in rehydratedState) {
+                if (keys instanceof Array) {
+                    keys.map(function (key) {
+                        if (key in rehydratedState[name_2]) {
+                            newValues_1[key] = rehydratedState[name_2][key];
+                        }
+                    });
+                    finalState = __assign({}, finalState, (_b = {}, _b[name_2] = __assign({}, finalState[name_2], newValues_1), _b));
+                }
+                else {
+                    finalState = __assign({}, finalState, (_c = {}, _c[name_2] = rehydratedState[name_2], _c));
+                }
             }
-            finalState = __assign({}, finalState, (_b = {}, _b[name_2] = __assign({}, finalState[name_2], newValues_1), _b));
         }
     });
     return finalState;

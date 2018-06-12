@@ -3,7 +3,7 @@ export declare const rehydrateApplicationState: (keys: any[], storage: Storage, 
 export declare const syncStateUpdate: (state: any, keys: any[], storage: Storage, storageKeySerializer: (key: string) => string, removeOnUndefined: boolean) => void;
 export declare const localStorageSync: (config: LocalStorageConfig) => (reducer: any) => (state: any, action: any) => any;
 export declare const mergePartialStates: (stateKeys: (string | {
-    [idx: string]: string[];
+    [idx: string]: {} | string[];
 })[], currentState: {}, rehydratedState: {}) => {};
 export declare const localStorageSyncAndClean: (keys: any[], rehydrate?: boolean, removeOnUndefined?: boolean) => (reducer: any) => any;
 export interface LocalStorageConfig {
